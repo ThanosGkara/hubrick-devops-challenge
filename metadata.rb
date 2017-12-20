@@ -1,6 +1,6 @@
 name 'hubrick-devops-challenge'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
+maintainer 'Athanasios Gkaraliakos'
+maintainer_email 'a.gkaraliakos@gmail.com'
 license 'All Rights Reserved'
 description 'Installs/Configures hubrick-devops-challenge'
 long_description 'Installs/Configures hubrick-devops-challenge'
@@ -18,3 +18,4 @@ chef_version '>= 12.1' if respond_to?(:chef_version)
 # a Supermarket.
 #
 # source_url 'https://github.com/<insert_org_here>/hubrick-devops-challenge'
+depends 'nginx'
