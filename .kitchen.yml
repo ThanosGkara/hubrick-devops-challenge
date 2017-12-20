@@ -1,25 +1,44 @@
 ---
 driver:
-  name: vagrant
+  name: gce
+  project: <%= ENV['GCE_PROJECT_ID'] %>
+  region: europe-west3
+  tags:
+    - http-server
+  service_account_scopes:
+    - devstorage.read_write
+    - userinfo.email
+  preemptible: true
+
 
 provisioner:
   name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
-  always_update_cookbooks: true
 
 verifier:
   name: inspec
 
+transport:
+  #username: thanosgkara
+  username: <%= ENV['USER'] %>
+  ssh_key:
+    - ~/.ssh/google_compute_engine
+
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7
+  - name: ubuntu-17.10
+    driver:
+      inst_name: hubrick-ubuntu-1710
+      image_project: ubuntu-os-cloud
+      image_name: ubuntu-1710-artful-v20171213
+      machine_type: g1-small
+      metadata:
+        application: ubuntu
+        release: a
+        version: 1710
 
 suites:
-  - name: default
+  - name: gce
     run_list:
-      - recipe[hubrick-devops-challenge::default]
+      - recipe[hubrick-devops-challenge::nginx]
     verifier:
       inspec_tests:
         - test/smoke/default
